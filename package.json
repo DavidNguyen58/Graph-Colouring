@@ -1,19 +1,19 @@
 {
+  "dependencies": {
+    "cytoscape-edgehandles": "^4.0.1"
+  },
   "name": "graph-colouring",
+  "description": "The project will decide whether a graph can be 3-colouring.",
   "version": "1.0.0",
-  "description": "Website to solve simple graph colouring problem",
-  "main": "app.js",
+  "private": "true",
+  "devDependencies": {
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DavidNguyen58/Graph-Colouring.git"
-  },
-  "author": "Thien An",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DavidNguyen58/Graph-Colouring/issues"
-  },
-  "homepage": "https://github.com/DavidNguyen58/Graph-Colouring#readme"
+  "author": "",
+  "license": "ISC"
 }
