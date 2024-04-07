@@ -1,66 +1,26 @@
-
 import cytoscape from 'cytoscape';
 import edgehandles from 'cytoscape-edgehandles';
 cytoscape.use( edgehandles );
 
+// Graph
 var cy = cytoscape({
 
   container: document.getElementById('screen'), // container to render in
-
-  elements: [ // list of graph elements to start with
-    { // node a
-      data: { id: 'a' }
-    },
-    { // node b
-      data: { id: 'b' }
-    },
-    {
-      data: {id: 'c'}
-    },
-    { // edge ab
-      data: { id: 'ab', source: 'a', target: 'b' }
-    }
-  ],
-
   style: [ // the stylesheet for the graph
     {
-      selector: 'node#a',
+      selector: 'node',
       style: {
         width: 15,
         height: 15,
-        "background-color": "blue"
+        'background-color': 'black',
+        'label': 'data(id)', 
+        color: 'white',
       }
     },
-    {
-      selector: 'node#b',
-      style:{
-        width: 15,
-        height: 15,
-        "background-color": "blue"  
-      }
-    },
-    {
-      selector: 'node#c',
-      style:{
-        width: 15,
-        height: 15,
-        "background-color": "blue"  
-      }
-    },
-    {
-      selector: 'edge',
-      style: {
-        'width': 3,
-        'line-color': '#ccc',
-        'target-arrow-color': '#ccc',
-        'curve-style': 'bezier',
-      }
-    }
   ],
 
   layout: {
-    name: 'grid',
-    rows: 1
+    name: 'circle',
   }
 });
 
@@ -83,8 +43,62 @@ let defaults = {
   disableBrowserGestures: true // during an edge drawing gesture, disable browser gestures such as two-finger trackpad swipe and pinch-to-zoom
 };
 
-let eh = cy.edgehandles(defaults);
+// JSON to send
+let info = {}
 
+// Setting up edgehandles
+let eh = cy.edgehandles( defaults );
 
+window.addEventListener('resize', function(event){
+  cy.center();
+});
+
+let width = document.getElementById('screen').offsetWidth;
+let height = document.getElementById('screen').offsetHeight;
+
+window.addEventListener('resize', function(event){
+  width = document.getElementById('screen').offsetWidth;
+  document.getElementById('screen').offsetHeight;
+})
+
+const vertex = document.getElementById('vertex')
+
+vertex.addEventListener('click', function(){
+  let id = cy.nodes().length + 1;
+  cy.add({
+    data: {id: `${id}`},
+    position: {x: width / 2 , y: height / 2}
+  })
+})
+
+// Edge
+const edge = document.getElementById('edge');
+edge.addEventListener('click', function(){
+  if (edge.style.backgroundColor == 'red'){
+    edge.style.backgroundColor = 'green';
+    eh.enableDrawMode();
+  }
+  else if (edge.style.backgroundColor == 'green'){
+    edge.style.backgroundColor = 'red';
+    eh.disableDrawMode()
+  }
+  else{
+    edge.style.backgroundColor = 'green';
+    eh.enableDrawMode()
+  }
+});
+
+cy.on("ehcomplete", function(event, sourceNode, targetNode, addedEdge){
+  console.log(sourceNode.id(), targetNode.id())
+});
+
+// Reset the graph
+const reset = document.getElementById('reset');
+reset.addEventListener('click', function(){
+  cy.destroy()
+  info = {}
+})
+
+// JSON
 
 
