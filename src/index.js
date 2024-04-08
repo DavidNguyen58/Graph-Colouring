@@ -69,6 +69,7 @@ vertex.addEventListener('click', function(){
     data: {id: `${id}`},
     position: {x: width / 2 , y: height / 2}
   })
+  info[id] = '';
 })
 
 // Edge
@@ -89,8 +90,23 @@ edge.addEventListener('click', function(){
 });
 
 cy.on("ehcomplete", function(event, sourceNode, targetNode, addedEdge){
-  console.log(sourceNode.id(), targetNode.id())
+  let x = sourceNode.id()
+  let y = targetNode.id()
+  if (info[x].length == 0){
+    info[x] = `${y}`;
+  }
+  else{
+    info[x] = info[x] + `,${y}`;
+  }
+  if (info[y].length == 0){
+    info[y] = `${x}`;
+  }
+  else{
+  info[y] = info[y] + `,${x}`;
+  }
+  console.log(info);
 });
+
 
 // Reset the graph
 const reset = document.getElementById('reset');
@@ -99,6 +115,19 @@ reset.addEventListener('click', function(){
   info = {}
 })
 
-// JSON
+
+// FETCH TO THE SERVER
+const btn_solve = document.getElementById('solve');
+btn_solve.addEventListener('click', function(e){
+  e.preventDefault();
+  for (let key of Object.keys(info)){
+    if (typeof info[key] === "string")
+    {
+    info[key] = info[key].split(",");
+    info[key].sort();
+    }
+  }
+  console.log(info)
+})
 
 
