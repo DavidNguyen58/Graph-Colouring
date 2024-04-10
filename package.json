@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "cytoscape-edgehandles": "^4.0.1",
-    "html-webpack-plugin": "^5.6.0"
+    "cytoscape-popper": "^4.0.0"
   },
   "name": "graph-colouring",
   "description": "The project will decide whether a graph can be 3-colouring.",

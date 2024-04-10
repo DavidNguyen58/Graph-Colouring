@@ -172,8 +172,6 @@ console.log( cy.$('#j').json() );
 console.log( cy.elements().jsons() );
 ```
 
-
-
 ## Module
 
 -A module will contain code for certain functionalities. It helps developers to organize code more logically, and reusability.
@@ -336,5 +334,12 @@ npm run build
 
 - Understand some problems with using CDN in development stage of my project
 
+## Designing
 
+[Link](https://www.joshwcomeau.com/css/designing-shadows/)
 
+- Filter, CSS HSL
+
+- Popper
+
+-Learn how to config your project with REACT , babbel , Webpack
