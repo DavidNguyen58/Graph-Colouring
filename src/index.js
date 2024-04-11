@@ -15,6 +15,7 @@ var cy = cytoscape({
         'background-color': 'black',
         'label': 'data(id)', 
         color: 'black',
+        
       }
     },
     {
@@ -172,8 +173,9 @@ cy.on("ehcomplete", function(event, sourceNode, targetNode, addedEdge){
 // Reset the graph
 const reset = document.getElementById('reset');
 reset.addEventListener('click', function(){
-  cy.destroy()
-  info = {}
+  let nodes = cy.nodes();
+  cy.remove(nodes);
+  info = {};
 })
 
 
@@ -190,4 +192,3 @@ btn_solve.addEventListener('click', function(e){
   }
   console.log(info)
 })
-console.log("Hello");

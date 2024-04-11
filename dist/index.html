@@ -13,20 +13,20 @@
         <div class="container">
             <div class="d-flex m-auto justify-content-end align-items-end" style="width: 60%; height: 65vh;" id="screen"></div>
         </div>
-        <div class="container">
+        <div class="container mt-4" id="G">
             <div class="d-flex justify-content-center pt-3 pb-3">
                 <button class="me-3 circle" id="vertex">V</button>
                 <button class="circle" id="edge">E</button>
-                <form id="reset" action="#">
-                    <button class="ms-3 circle">Reset</button>
-                </form>
+                <button class="ms-3 circle" id="reset">Reset</button>
             </div>
         </div>
         <div class="container" id="message"></div>
-        <div class="d-flex justify-content-center align-items-center mt-3 container">
-            <button id="solve">SOLVE</button>
+        <div class="d-flex justify-content-center align-items-center mt-1 container">
+            <form action="#">
+                <button id="solve">SOLVE</button>
+            </form>
         </div>
-        <div id="mydiv"></div>
+        <div id="root"></div>
     </body>
     <script src="main.js"></script>
 </html>
