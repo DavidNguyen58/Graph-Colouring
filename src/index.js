@@ -1,9 +1,13 @@
 import cytoscape from 'cytoscape';
 import edgehandles from 'cytoscape-edgehandles';
-import React from "react"
+import React, {useState} from "react"
 import ReactDOM from 'react-dom/client';
-import { AwesomeButton } from 'react-awesome-button';
-import 'react-awesome-button/dist/styles.css';
+import { AwesomeButton, AwesomeButtonProgress } from 'react-awesome-button';
+import AwesomeButtonStyles from 'react-awesome-button/src/styles/styles.scss';
+import { TrashIcon } from "@primer/octicons-react"; 
+import { AiOutlineNodeIndex } from "react-icons/ai";
+import { FaCircle } from "react-icons/fa6";
+
 cytoscape.use( edgehandles );
 
 
@@ -142,6 +146,7 @@ function AddVertex(){
 }
 
 
+
 // Need to make some changes here
 let i = 0
 // Button for Edge
@@ -179,10 +184,10 @@ function Reset(){
 
 function GraphButtons(){
   return (
-  <div className="d-flex justify-content-center pt-3 pb-3">
-      <AwesomeButton className="me-3 circle" onPress={AddVertex}>V</AwesomeButton>
-      <AwesomeButton className="circle" onPress={AddEdge}>E</AwesomeButton>
-      <AwesomeButton className="ms-3 circle" onPress={Reset}>Reset</AwesomeButton>
+  <div className="row pt-2 pb-3">
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={AddVertex} style={{fontSize: '14px', width: '20vh'}}><FaCircle/>&nbsp;Add Vertex<p id="nv"></p></AwesomeButton></div>
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={AddEdge} style={{fontSize: '14px', width: '20vh'}}><AiOutlineNodeIndex/>&nbsp;Add Edge</AwesomeButton></div>
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton cssModule={AwesomeButtonStyles}  onPress={Reset} type="danger" style={{fontSize: '14px', width: '20vh'}}><TrashIcon/>&nbsp;Reset</AwesomeButton></div>
   </div>
   )
 }
@@ -209,9 +214,8 @@ cy.on("ehcomplete", function(event, sourceNode, targetNode, addedEdge){
 });
 
 
-
-function Solve(event){
-  event.preventDefault()
+// Fetch with Asyn and Promises
+async function Solve(event){
   for (let key of Object.keys(info)){
     if (typeof info[key] === "string")
     {
@@ -227,7 +231,7 @@ function ButtonSolve(){
   return (
   // Fetch to the server and render if there is a solution
   <form action="#">
-    <AwesomeButton type="primary" onPress={Solve}>Solve</AwesomeButton> 
+    <AwesomeButtonProgress type="secondary" onPress={Solve()} style={{fontSize: '14px', width: '28vh'}}>Solve</AwesomeButtonProgress> 
   </form>
   )
 }
