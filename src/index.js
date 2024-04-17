@@ -1,8 +1,17 @@
 import cytoscape from 'cytoscape';
 import edgehandles from 'cytoscape-edgehandles';
+import React, {useState} from "react"
+import ReactDOM from 'react-dom/client';
+import { AwesomeButton, AwesomeButtonProgress } from 'react-awesome-button';
+import AwesomeButtonStyles from 'react-awesome-button/src/styles/styles.scss';
+import { TrashIcon } from "@primer/octicons-react"; 
+import { AiOutlineNodeIndex } from "react-icons/ai";
+import { FaCircle } from "react-icons/fa6";
+
 cytoscape.use( edgehandles );
 
-// Graph
+
+// Graph instance
 var cy = cytoscape({
 
   container: document.getElementById('screen'), // container to render in
@@ -122,9 +131,9 @@ window.addEventListener('resize', function(event){
   document.getElementById('screen').offsetHeight;
 })
 
-const vertex = document.getElementById('vertex')
 
-vertex.addEventListener('click', function(){
+// Button for vertex
+function AddVertex(){
   console.log("APPEARRED")
   let id = cy.nodes().length + 1;
   cy.add({
@@ -132,12 +141,17 @@ vertex.addEventListener('click', function(){
     position: {x: width / 2 , y: height / 2}
   })
   info[id] = '';
-})
+  console.log("Success")
+  console.log(`Vertex: ${id}`)
+}
 
-// Edge
-const edge = document.getElementById('edge');
-edge.addEventListener('click', function(){
-  if (edge.style.backgroundColor == 'red'){
+
+
+// Need to make some changes here
+let i = 0
+// Button for Edge
+function AddEdge(){
+  /*if (edge.style.backgroundColor == 'red'){
     edge.style.backgroundColor = 'green';
     eh.enableDrawMode();
   }
@@ -148,8 +162,38 @@ edge.addEventListener('click', function(){
   else{
     edge.style.backgroundColor = 'green';
     eh.enableDrawMode()
+  }*/
+  if (i === 0){
+    eh.enableDrawMode();
+    i = 1;
+    console.log(i)
   }
-});
+  else if (i === 1) {
+    eh.disableDrawMode();
+    i = 0;
+    console.log(i)
+  }
+}
+
+// Button for resetting
+function Reset(){
+  let nodes = cy.nodes();
+  cy.remove(nodes);
+  info = {};
+}
+
+function GraphButtons(){
+  return (
+  <div className="row pt-2 pb-3">
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={AddVertex} style={{fontSize: '14px', width: '20vh'}}><FaCircle/>&nbsp;Add Vertex<p id="nv"></p></AwesomeButton></div>
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={AddEdge} style={{fontSize: '14px', width: '20vh'}}><AiOutlineNodeIndex/>&nbsp;Add Edge</AwesomeButton></div>
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton cssModule={AwesomeButtonStyles}  onPress={Reset} type="danger" style={{fontSize: '14px', width: '20vh'}}><TrashIcon/>&nbsp;Reset</AwesomeButton></div>
+  </div>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('G')).render(<GraphButtons/>);
+
 
 cy.on("ehcomplete", function(event, sourceNode, targetNode, addedEdge){
   let x = sourceNode.id()
@@ -170,19 +214,8 @@ cy.on("ehcomplete", function(event, sourceNode, targetNode, addedEdge){
 });
 
 
-// Reset the graph
-const reset = document.getElementById('reset');
-reset.addEventListener('click', function(){
-  let nodes = cy.nodes();
-  cy.remove(nodes);
-  info = {};
-})
-
-
-// FETCH TO THE SERVER
-const btn_solve = document.getElementById('solve');
-btn_solve.addEventListener('click', function(e){
-  e.preventDefault();
+// Fetch with Asyn and Promises
+async function Solve(event){
   for (let key of Object.keys(info)){
     if (typeof info[key] === "string")
     {
@@ -191,4 +224,18 @@ btn_solve.addEventListener('click', function(e){
     }
   }
   console.log(info)
-})
+}
+
+// Change the first button Solving - Consider adding fetching
+function ButtonSolve(){
+  return (
+  // Fetch to the server and render if there is a solution
+  <form action="#">
+    <AwesomeButtonProgress type="secondary" onPress={Solve()} style={{fontSize: '14px', width: '28vh'}}>Solve</AwesomeButtonProgress> 
+  </form>
+  )
+}
+ReactDOM.createRoot(document.getElementById('solve')).render(<ButtonSolve/>);
+
+
+// How to access the property of a component in React
