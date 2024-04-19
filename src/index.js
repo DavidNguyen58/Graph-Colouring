@@ -88,7 +88,6 @@ var cy = cytoscape({
       }
     }
   ],
-
   layout: {
     name: 'circle',
   }
@@ -142,36 +141,6 @@ function AddVertex(){
   console.log(`Vertex: ${id}`)
 }
 
-
-
-// Need to make some changes here
-let i = 0
-// Button for Edge
-function AddEdge(){
-  /*if (edge.style.backgroundColor == 'red'){
-    edge.style.backgroundColor = 'green';
-    eh.enableDrawMode();
-  }
-  else if (edge.style.backgroundColor == 'green'){
-    edge.style.backgroundColor = 'red';
-    eh.disableDrawMode()
-  }
-  else{
-    edge.style.backgroundColor = 'green';
-    eh.enableDrawMode()
-  }*/
-  if (i === 0){
-    eh.enableDrawMode();
-    i = 1;
-    console.log(i)
-  }
-  else if (i === 1) {
-    eh.disableDrawMode();
-    i = 0;
-    console.log(i)
-  }
-}
-
 // Button for resetting
 function Reset(){
   let nodes = cy.nodes();
@@ -220,25 +189,33 @@ cy.on("ehcomplete", function(event, sourceNode, targetNode, addedEdge){
 });
 
 
-// Fetch with Asyn and Promises
-async function Solve(event){
-  for (let key of Object.keys(info)){
-    if (typeof info[key] === "string")
-    {
-    info[key] = info[key].split(",");
-    info[key].sort();
-    }
-  }
-  console.log(info)
-}
-
 // Change the first button Solving - Consider adding fetching
 function ButtonSolve(){
+  const url = "https://api.sglre6355.net/color_graph"
+  // Learn and complete this function
+  const solve = async function Solve(){
+    for (let key of Object.keys(info)){
+      if (typeof info[key] === "string")
+      {
+      info[key] = info[key].split(",");
+      info[key].sort();
+      }
+      const response = await fetch(url, {
+        method: "GET",
+        headers:{
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(info)
+      });
+      if (response.ok){
+        console.log("Sucessfully fetched");
+      }
+      console.log(response.json());
+    }
+  }
   return (
   // Fetch to the server and render if there is a solution
-  <form action="#">
-    <AwesomeButtonProgress type="secondary" onPress={Solve()} style={{fontSize: '16px', width: '30vh'}}>SOLVE</AwesomeButtonProgress> 
-  </form>
+  <AwesomeButtonProgress type="secondary" onPress={solve()} style={{fontSize: '16px', width: '30vh'}}>SOLVE</AwesomeButtonProgress> 
   )
 }
 ReactDOM.createRoot(document.getElementById('solve')).render(<ButtonSolve/>);
