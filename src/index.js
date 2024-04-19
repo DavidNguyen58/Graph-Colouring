@@ -201,7 +201,7 @@ function ButtonSolve(){
       info[key].sort();
       }
       const response = await fetch(url, {
-        method: "GET",
+        method: "POST",
         headers:{
           "Content-type": "application/json",
         },
@@ -215,7 +215,7 @@ function ButtonSolve(){
   }
   return (
   // Fetch to the server and render if there is a solution
-  <AwesomeButtonProgress type="secondary" onPress={solve()} style={{fontSize: '16px', width: '30vh'}}>SOLVE</AwesomeButtonProgress> 
+  <AwesomeButtonProgress type="secondary" onPress={solve} style={{fontSize: '16px', width: '30vh'}}>SOLVE</AwesomeButtonProgress> 
   )
 }
 ReactDOM.createRoot(document.getElementById('solve')).render(<ButtonSolve/>);
