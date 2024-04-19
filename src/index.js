@@ -119,14 +119,11 @@ let info = {}
 // Setting up edgehandles
 let eh = cy.edgehandles( defaults );
 
-window.addEventListener('resize', function(event){
-  cy.center();
-});
-
 let width = document.getElementById('screen').offsetWidth;
 let height = document.getElementById('screen').offsetHeight;
 
 window.addEventListener('resize', function(event){
+  cy.center();
   width = document.getElementById('screen').offsetWidth;
   document.getElementById('screen').offsetHeight;
 })
@@ -183,11 +180,20 @@ function Reset(){
 }
 
 function GraphButtons(){
+  const [isToggled, setIsToggled] = useState(false);
+  const toggle = () => {
+    if (isToggled){
+      eh.disableDrawMode();
+    }
+    else if (!isToggled){
+      eh.enableDrawMode();
+    }
+    setIsToggled(prevState => !prevState)};
   return (
   <div className="row pt-2 pb-3">
-      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={AddVertex} style={{fontSize: '14px', width: '20vh'}}><FaCircle/>&nbsp;Add Vertex<p id="nv"></p></AwesomeButton></div>
-      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={AddEdge} style={{fontSize: '14px', width: '20vh'}}><AiOutlineNodeIndex/>&nbsp;Add Edge</AwesomeButton></div>
-      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton cssModule={AwesomeButtonStyles}  onPress={Reset} type="danger" style={{fontSize: '14px', width: '20vh'}}><TrashIcon/>&nbsp;Reset</AwesomeButton></div>
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={AddVertex} style={{fontSize: '16px', width: '30vh'}}><FaCircle/>&nbsp;Add Vertex<p id="nv"></p></AwesomeButton></div>
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton onPress={toggle} style={{fontSize: '16px', width: '30vh'}}><AiOutlineNodeIndex/>&nbsp;Add Edge: {isToggled ? 'ON': 'OFF'}</AwesomeButton></div>
+      <div className='col-sm-4 d-flex justify-content-center'><AwesomeButton cssModule={AwesomeButtonStyles}  onPress={Reset} type="danger" style={{fontSize: '16px', width: '30vh'}}><TrashIcon/>&nbsp;Reset</AwesomeButton></div>
   </div>
   )
 }
@@ -231,7 +237,7 @@ function ButtonSolve(){
   return (
   // Fetch to the server and render if there is a solution
   <form action="#">
-    <AwesomeButtonProgress type="secondary" onPress={Solve()} style={{fontSize: '14px', width: '28vh'}}>Solve</AwesomeButtonProgress> 
+    <AwesomeButtonProgress type="secondary" onPress={Solve()} style={{fontSize: '16px', width: '30vh'}}>SOLVE</AwesomeButtonProgress> 
   </form>
   )
 }
