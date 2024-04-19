@@ -3,8 +3,11 @@ use petgraph::graphmap::UnGraphMap;
 
 const COLORS: [&str; 4] = ["red", "blue", "green", "yellow"];
 
-pub async fn handle_request(body: String) -> String {
-    let nodes_and_neighbors: HashMap<&str, Vec<&str>> = serde_json::from_str(&body).expect("Request body should be a valid JSON.");
+pub async fn handle_request(body: String) -> Result <String, String> {
+    let nodes_and_neighbors: HashMap<&str, Vec<&str>> = match serde_json::from_str(&body) {
+        Ok(value) => value,
+        Err(_) => return Err(String::from("Call the API with a proper JSON data")),
+    };
     let node_colors: HashMap<&str, &str> = nodes_and_neighbors.keys().map(|node| (*node, "")).collect();
 
     let mut edges: Vec<(&str, &str)> = vec![];
@@ -17,7 +20,7 @@ pub async fn handle_request(body: String) -> String {
     let graph = UnGraphMap::<_, ()>::from_edges(&edges);
 
     let node_colors = welsh_powell(graph, node_colors);
-    serde_json::to_string(&node_colors).unwrap()
+    Ok(serde_json::to_string(&node_colors).unwrap())
 }
 
 fn welsh_powell<'a>(graph: UnGraphMap<&'a str, ()>, mut node_colors: HashMap<&'a str, &'a str>) -> HashMap<&'a str, &'a str> {
