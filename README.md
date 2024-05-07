@@ -1,5 +1,5 @@
 # Graph Colouring Project
-A project provides an easy and interactive way to manipulate graphs. It also help to decide whether a given graph is colourable. The project utilizes 'Cytoscape.js' libraries for manipulating with graph instances, 'ReactAwesomeButton' for UI design, and 'Webpack' technology to transpile all the js code in front-end.
+A project provides an easy and interactive way to manipulate graphs. It also help to decide whether a given graph is colourable. The project utilizes `Cytoscape.js` libraries for manipulating with graph instances, `ReactAwesomeButton` for UI design, and `Webpack` technology to transpile all the js code in front-end.
 ## How to install and run the program
 Here are the steps to run the program:
 - In the terminal, use `npm install` to install all the depedencies
